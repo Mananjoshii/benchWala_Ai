@@ -38,7 +38,10 @@ router.post("/login", async (req, res) => {
     role: user.role,
   };
 
-  res.send(`Logged in as ${user.role}`);
+  if (user.role === "GLOBAL_ADMIN") res.redirect("/dashboard/global-admin");
+  else if (user.role === "LOCAL_ADMIN") res.redirect("/dashboard/local-admin");
+  else if (user.role === "STAFF") res.redirect("/dashboard/staff");
+  else res.redirect("/dashboard/student");
 });
 
 module.exports = router;

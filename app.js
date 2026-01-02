@@ -22,6 +22,10 @@ app.use(
     saveUninitialized: false,
   })
 );
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  next();
+});
 
 // routes
 const indexRoutes = require("./routes/index.routes");
@@ -29,6 +33,9 @@ app.use("/", indexRoutes);
 
 const authRoutes = require("./routes/auth.routes");
 app.use("/", authRoutes);
+
+const dashboardRoutes = require("./routes/dashboard.routes");
+app.use("/", dashboardRoutes);
 
 // server
 app.listen(PORT, () => {
