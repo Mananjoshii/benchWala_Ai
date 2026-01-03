@@ -43,6 +43,15 @@ app.use("/", examRoutes);
 const classroomRoutes = require("./routes/classroom.routes");
 app.use("/", classroomRoutes);
 
+const examDepartmentRoutes = require("./routes/examDepartment.routes");
+app.use("/", examDepartmentRoutes);
+
+const examClassroomRoutes = require("./routes/examClassroom.routes");
+app.use("/", examClassroomRoutes);
+
+const seatAllocationRoutes = require("./routes/seatAllocation.routes");
+app.use("/", seatAllocationRoutes);
+
 // server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

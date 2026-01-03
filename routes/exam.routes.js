@@ -44,8 +44,66 @@ router.get(
        JOIN users ON exams.created_by = users.id
        ORDER BY exam_date`
     );
-
+    console.log(exams);
     res.render("exams/list", { exams });
+  }
+);
+
+router.get(
+  "/exams/:examId",
+  isLoggedIn,
+  allowRoles("GLOBAL_ADMIN", "LOCAL_ADMIN"),
+  async (req, res) => {
+    const { examId } = req.params;
+    const role = req.session.user.role;
+    const deptId = req.session.user.department_id;
+
+    const [[exam]] = await db.query("SELECT * FROM exams WHERE id = ?", [
+      examId,
+    ]);
+
+    const [departments] = await db.query("SELECT * FROM departments");
+
+    const [examDepartments] = await db.query(
+      `SELECT d.name AS department
+       FROM exam_departments ed
+       JOIN departments d ON ed.department_id = d.id
+       WHERE ed.exam_id = ?`,
+      [examId]
+    );
+
+    let examClassrooms = [];
+
+    // 🔑 ONLY for Local Admin
+    if (role === "LOCAL_ADMIN") {
+      [examClassrooms] = await db.query(
+        `SELECT ec.classroom_id, c.name AS classroom_name
+         FROM exam_classrooms ec
+         JOIN classrooms c ON ec.classroom_id = c.id
+         WHERE ec.exam_id = ?
+         AND ec.department_id = ?`,
+        [examId, deptId]
+      );
+    }
+    let departmentClassrooms = [];
+
+    if (role === "LOCAL_ADMIN") {
+      [departmentClassrooms] = await db.query(
+        `SELECT id, name
+     FROM classrooms
+     WHERE department_id = ?`,
+        [deptId]
+      );
+    }
+
+    console.log(examClassrooms);
+    res.render("exams/show", {
+      exam,
+      departments,
+      examDepartments,
+      examClassrooms,
+      departmentClassrooms,
+    });
   }
 );
 

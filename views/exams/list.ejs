@@ -1,19 +1,31 @@
-<h2>Exams</h2>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>Exams</h2>
 
-<table border="1">
-  <tr>
-    <th>Title</th>
-    <th>Date</th>
-    <th>Session</th>
-    <th>Created By</th>
-  </tr>
+    <table border="1">
+      <tr>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Session</th>
+        <th>Created By</th>
+      </tr>
 
-  <% exams.forEach(exam => { %>
-  <tr>
-    <td><%= exam.title %></td>
-    <td><%= exam.exam_date %></td>
-    <td><%= exam.session %></td>
-    <td><%= exam.creator %></td>
-  </tr>
-  <% }) %>
-</table>
+      <% exams.forEach(exam => { %>
+      <tr>
+        <td>
+          <a href="/exams/<%= exam.id %>"> <%= exam.title %> </a>
+        </td>
+        <td><%= exam.exam_date %></td>
+        <td><%= exam.session %></td>
+        <td><%= exam.creator %></td>
+      </tr>
+      <% }) %>
+    </table>
+  </body>
+</html>

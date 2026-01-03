@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2><%= exam.title %></h2>
+    <p>Date: <%= exam.exam_date %> | Session: <%= exam.session %></p>
+
+    <h3>Add Department to Exam</h3>
+
+    <form method="POST" action="/exams/<%= exam.id %>/departments">
+      <select name="department_id" required>
+        <option value="">Select Department</option>
+        <% departments.forEach(d => { %>
+        <option value="<%= d.id %>"><%= d.name %></option>
+        <% }) %>
+      </select>
+
+      <button type="submit">Add Department</button>
+    </form>
+
+    <hr />
+
+    <% if (session.user.role === "LOCAL_ADMIN") { %>
+
+    <h3>Assign Classroom to this Exam</h3>
+
+    <form method="POST" action="/exams/<%= exam.id %>/classrooms">
+      <select name="classroom_id" required>
+        <option value="">Select Classroom</option>
+        <% departmentClassrooms.forEach(c => { %>
+        <option value="<%= c.id %>"><%= c.name %></option>
+        <% }) %>
+      </select>
+
+      <button type="submit">Add Classroom</button>
+    </form>
+
+    <% } %>
+
+    <h3>Departments in this Exam</h3>
+    <ul>
+      <% examDepartments.forEach(ed => { %>
+      <li><%= ed.department %></li>
+      <% }) %>
+    </ul>
+
+    <% if (session.user.role === "LOCAL_ADMIN") { %>
+    <h3>Your Classrooms for this Exam</h3>
+    <ul>
+      <% examClassrooms.forEach(c => { %>
+      <li>
+        <a href="/exams/<%= exam.id %>/classrooms/<%= c.classroom_id %>">
+          <%= c.classroom_name %>
+        </a>
+      </li>
+      <% }) %>
+    </ul>
+    <%}%>
+  </body>
+</html>
