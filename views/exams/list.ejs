@@ -15,6 +15,7 @@
         <th>Session</th>
         <th>Created By</th>
         <th>Attendence</th>
+        <th>Booklet Status</th>
       </tr>
 
       <% exams.forEach(exam => { %>
@@ -27,6 +28,9 @@
         <td><%= exam.creator %></td>
         <td>
           <a href="/admin/exams/<%= exam.id %>/attendance"> View Attendance </a>
+        </td>
+        <td>
+          <a href="/admin/exams/<%= exam.id %>/booklets"> View </a>
         </td>
       </tr>
       <% }) %>

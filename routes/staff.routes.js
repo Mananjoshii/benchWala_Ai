@@ -106,4 +106,58 @@ router.post(
   }
 );
 
+router.get(
+  "/staff/exams/:examId/classrooms/:classroomId/booklets",
+  isLoggedIn,
+  allowRoles("STAFF"),
+  async (req, res) => {
+    const { examId, classroomId } = req.params;
+    const staffId = req.session.user.id;
+
+    const [[assigned]] = await db.query(
+      `SELECT 1 FROM exam_staff
+       WHERE exam_id = ? AND classroom_id = ? AND staff_id = ?`,
+      [examId, classroomId, staffId]
+    );
+
+    if (!assigned) {
+      return res.status(403).send("Unauthorized");
+    }
+
+    res.render("staff/booklets", { examId, classroomId });
+  }
+);
+
+router.post(
+  "/staff/exams/:examId/classrooms/:classroomId/booklets",
+  isLoggedIn,
+  allowRoles("STAFF"),
+  async (req, res) => {
+    const { examId, classroomId } = req.params;
+    const staffId = req.session.user.id;
+    const { received_count } = req.body;
+
+    // count PRESENT students
+    const [[count]] = await db.query(
+      `SELECT COUNT(*) AS present_count
+       FROM exam_attendance
+       WHERE exam_id = ?
+       AND classroom_id = ?
+       AND status = 'PRESENT'`,
+      [examId, classroomId]
+    );
+
+    const shortage = count.present_count - received_count;
+
+    await db.query(
+      `INSERT INTO exam_booklets (exam_id, classroom_id, staff_id, received_count)
+       VALUES (?, ?, ?, ?)
+       ON DUPLICATE KEY UPDATE received_count = VALUES(received_count)`,
+      [examId, classroomId, staffId, received_count]
+    );
+
+    res.redirect("/dashboard/staff");
+  }
+);
+
 module.exports = router;
