@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>Booklet Status</h2>
+
+    <table border="1">
+      <tr>
+        <th>Classroom</th>
+        <th>Present Students</th>
+        <th>Booklets Received</th>
+        <th>Status</th>
+      </tr>
+
+      <% rows.forEach(r => { %>
+      <tr>
+        <td><%= r.classroom %></td>
+        <td><%= r.present_students %></td>
+        <td><%= r.received_count %></td>
+        <td>
+          <% if (r.shortage > 0) { %> ❌ Short by <%= r.shortage %> <% } else {
+          %> ✅ OK <% } %>
+        </td>
+      </tr>
+      <% }) %>
+    </table>
+  </body>
+</html>

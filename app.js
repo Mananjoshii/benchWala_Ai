@@ -67,6 +67,9 @@ app.use("/", staffRoutes);
 const adminAttendanceRoutes = require("./routes/adminAttendance.routes");
 app.use("/", adminAttendanceRoutes);
 
+const adminBookletRoutes = require("./routes/adminBooklets.routes");
+app.use("/", adminBookletRoutes);
+
 // server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
