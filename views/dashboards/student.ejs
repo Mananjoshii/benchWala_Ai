@@ -3,11 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Student Dashboard - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/student.css" />
   </head>
   <body>
-    <h2>Student Dashboard</h2>
-    <p>Welcome, <%= session.user.name %></p>
-    <a href="/student/exams">View Exams</a>
+    <div class="page-container">
+      <div class="student-dashboard">
+        <div class="dashboard-header">
+          <h2>Student Dashboard</h2>
+          <p class="welcome-message">Welcome back, <%= session.user.name %></p>
+        </div>
+
+        <div class="navigation-action">
+          <a href="/student/exams" class="navigation-btn">
+            🗺️ Find My Seat & View All Exams
+          </a>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

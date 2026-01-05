@@ -3,34 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Allocate Seats - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/classroom-allocation.css" />
   </head>
   <body>
-    <h2>Allocate Seats – <%= classroomName %></h2>
+    <div class="page-container">
+      <div class="page-header">
+        <h2>Allocate Seats – <%= classroomName %></h2>
+      </div>
 
-    <% if (seatsFrozen) { %>
-    <p><b>Seats are frozen. Allocation disabled.</b></p>
-    <% } else { %>
-    <form
-      method="POST"
-      action="/exams/<%= examId %>/classrooms/<%= classroomId %>/allocate"
-    >
-      <select name="student_id" required>
-        <option value="">Select Student</option>
-        <% students.forEach(s => { %>
-        <option value="<%= s.id %>"><%= s.name %></option>
-        <% }) %>
-      </select>
+      <div class="allocation-card">
+        <div class="card-header">
+          <h3>Manual Seat Allocation</h3>
+        </div>
 
-      <select name="bench_id" required>
-        <option value="">Select Bench</option>
-        <% benches.forEach(b => { %>
-        <option value="<%= b.id %>">Bench <%= b.bench_number %></option>
-        <% }) %>
-      </select>
+        <div class="card-body">
+          <% if (seatsFrozen) { %>
+          <div class="frozen-notice">
+            <b
+              >⚠️ Seats are frozen for this classroom.<br />Allocation is
+              currently disabled.</b
+            >
+          </div>
+          <% } else { %>
+          <form
+            method="POST"
+            action="/exams/<%= examId %>/classrooms/<%= classroomId %>/allocate"
+            class="allocation-form"
+          >
+            <div class="form-group">
+              <label for="student">Select Student</label>
+              <select id="student" name="student_id" required>
+                <option value="">Choose a student</option>
+                <% students.forEach(s => { %>
+                <option value="<%= s.id %>"><%= s.name %></option>
+                <% }) %>
+              </select>
+            </div>
 
-      <button type="submit">Allocate</button>
-    </form>
-    <% } %>
+            <div class="form-group">
+              <label for="bench">Select Bench</label>
+              <select id="bench" name="bench_id" required>
+                <option value="">Choose a bench</option>
+                <% benches.forEach(b => { %>
+                <option value="<%= b.id %>">Bench <%= b.bench_number %></option>
+                <% }) %>
+              </select>
+            </div>
+
+            <button type="submit" class="allocate-btn">Allocate Seat</button>
+          </form>
+          <% } %>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

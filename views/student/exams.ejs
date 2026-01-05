@@ -3,19 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>My Exams - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/exams.css" />
   </head>
   <body>
-    <h2>My Exams</h2>
+    <div class="page-container">
+      <div class="page-header">
+        <h2>My Exams</h2>
+      </div>
 
-    <ul>
-      <% exams.forEach(exam => { %>
-      <li>
-        <a href="/student/exams/<%= exam.id %>">
-          <%= exam.title %> - <%= exam.exam_date %> (<%= exam.session %>)
-        </a>
-      </li>
-      <% }) %>
-    </ul>
+      <div class="exams-grid">
+        <% if (exams.length === 0) { %>
+        <div class="empty-state">
+          <p>
+            No exams scheduled yet.<br />Your exam list will appear here when
+            seats are allocated.
+          </p>
+        </div>
+        <% } else { %> <% exams.forEach(exam => { %>
+        <div class="exam-card">
+          <a href="/student/exams/<%= exam.id %>">
+            <div class="exam-title"><%= exam.title %></div>
+
+            <div class="exam-details">
+              <div class="detail-item">
+                <div class="detail-label">Day</div>
+                <div class="detail-value"><%= exam.day_of_week %></div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-label">Date</div>
+                <div class="detail-value"><%= exam.formatted_date %></div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-label">Session</div>
+                <div class="detail-value">
+                  <%= exam.session === 'FN' ? 'Forenoon' : 'Afternoon' %>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <% }) %> <% } %>
+      </div>
+    </div>
   </body>
 </html>

@@ -3,14 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>My Seat - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/exam-detail.css" />
   </head>
   <body>
-    <h2><%= seat.title %></h2>
-    <p>Date: <%= seat.exam_date %> | Session: <%= seat.session %></p>
+    <div class="page-container">
+      <div class="seat-card">
+        <div class="seat-header">
+          <h2><%= seat.title %></h2>
+          <p>Date: <%= seat.exam_date %> | Session: <%= seat.session %></p>
+        </div>
 
-    <h3>Exam Hall Details</h3>
-    <p><b>Classroom:</b> <%= seat.classroom %></p>
-    <p><b>Bench Number:</b> <%= seat.bench_number %></p>
+        <div class="seat-details">
+          <h3>Exam Hall Details</h3>
+
+          <div class="detail-grid">
+            <div class="detail-item">
+              <strong>Classroom</strong>
+              <div class="value"><%= seat.classroom %></div>
+            </div>
+
+            <div class="detail-item bench-highlight">
+              <strong>Bench Number</strong>
+              <div class="value"><%= seat.bench_number %></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

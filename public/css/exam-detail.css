@@ -1,0 +1,160 @@
+/* Updated /css/style.css - Advanced Student Seat Details page styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fc;
+  color: #1e293b;
+  line-height: 1.6;
+}
+
+/* Page Container - Centered for student view */
+.page-container {
+  min-height: 100vh;
+  margin-top: 80px;
+  margin-left: 260px;
+  padding: 3rem 5%;
+  background: linear-gradient(to bottom right, #f8f9fc, #eef2ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Seat Card */
+.seat-card {
+  width: 100%;
+  max-width: 800px;
+  background: #ffffff;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+/* Header */
+.seat-header {
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  padding: 4rem 3rem 3rem;
+  color: white;
+}
+
+.seat-header h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.seat-header p {
+  font-size: 1.6rem;
+  opacity: 0.95;
+  font-weight: 500;
+}
+
+/* Details Section */
+.seat-details {
+  padding: 4rem 3rem 5rem;
+}
+
+.seat-details h3 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 3rem;
+  color: #1e293b;
+  position: relative;
+}
+
+.seat-details h3::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #2563eb, #4f46e5);
+  border-radius: 2px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+}
+
+.detail-item {
+  background: #f0f7ff;
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.08);
+  border: 1px solid #dbeafe;
+}
+
+.detail-item strong {
+  display: block;
+  font-size: 1.3rem;
+  color: #475569;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.detail-item .value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+/* Highlight Bench */
+.bench-highlight .value {
+  font-size: 3rem;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .page-container {
+    margin-left: 0;
+    padding: 2rem 5%;
+  }
+}
+
+@media (max-width: 768px) {
+  .seat-header {
+    padding: 3rem 2rem;
+  }
+  
+  .seat-header h2 {
+    font-size: 2.5rem;
+  }
+  
+  .seat-header p {
+    font-size: 1.4rem;
+  }
+  
+  .seat-details {
+    padding: 3rem 2rem;
+  }
+  
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .detail-item .value {
+    font-size: 2rem;
+  }
+  
+  .bench-highlight .value {
+    font-size: 2.6rem;
+  }
+}

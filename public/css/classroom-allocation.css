@@ -1,0 +1,165 @@
+/* Updated /css/style.css - Advanced Seat Allocation page styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fc;
+  color: #1e293b;
+  line-height: 1.6;
+}
+
+/* Page Container */
+.page-container {
+  min-height: 100vh;
+  margin-top: 80px;
+  margin-left: 260px;
+  padding: 3rem 5%;
+  background: linear-gradient(to bottom right, #f8f9fc, #eef2ff);
+}
+
+/* Header */
+.page-header {
+  margin-bottom: 2.5rem;
+}
+
+.page-header h2 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #2563eb, #4f46e5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Allocation Card */
+.allocation-card {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.card-header {
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  color: white;
+}
+
+.card-header h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-body {
+  padding: 3rem 2.5rem;
+}
+
+/* Frozen State */
+.frozen-notice {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: #fef3c7;
+  border-radius: 16px;
+  border: 1px solid #fcd34d;
+  margin: 2rem 0;
+}
+
+.frozen-notice b {
+  color: #92400e;
+  font-size: 1.3rem;
+}
+
+/* Allocation Form */
+.allocation-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  align-items: end;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+}
+
+.form-group select {
+  padding: 1.2rem 1.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  background-color: #f8fafc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.form-group select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+  background-color: #ffffff;
+}
+
+.allocate-btn {
+  padding: 1.2rem 2.5rem;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
+  font-size: 1.15rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+  transition: all 0.3s ease;
+  justify-self: start;
+}
+
+.allocate-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 35px rgba(37, 99, 235, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .page-container {
+    margin-left: 0;
+    padding: 2rem 5%;
+  }
+}
+
+@media (max-width: 768px) {
+  .allocation-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .allocate-btn {
+    width: 100%;
+    justify-self: stretch;
+  }
+  
+  .card-header {
+    padding: 2rem 1.5rem;
+  }
+  
+  .card-body {
+    padding: 2.5rem 2rem;
+  }
+}

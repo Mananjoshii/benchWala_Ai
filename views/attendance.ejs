@@ -1,30 +1,53 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Exam Attendance</title>
+    <title>Exam Attendance - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/attendence-status.css" />
   </head>
   <body>
-    <h2>Exam Attendance Report</h2>
+    <div class="page-container">
+      <div class="page-header">
+        <h2>Exam Attendance Report</h2>
+        <div class="header-actions">
+          <button class="btn btn-secondary">Export CSV</button>
+          <button class="btn btn-primary">Refresh Data</button>
+        </div>
+      </div>
 
-    <table border="1">
-      <tr>
-        <th>Classroom</th>
-        <th>Bench</th>
-        <th>Student</th>
-        <th>Status</th>
-      </tr>
-
-      <% records.forEach(r => { %>
-      <tr>
-        <td><%= r.classroom %></td>
-        <td><%= r.bench_number %></td>
-        <td><%= r.student %></td>
-        <td>
-          <% if (r.status === 'PRESENT') { %> ✅ Present <% } else { %> ❌
-          Absent <% } %>
-        </td>
-      </tr>
-      <% }) %>
-    </table>
+      <div class="table-card">
+        <table class="attendance-table">
+          <thead>
+            <tr>
+              <th>Classroom</th>
+              <th>Bench</th>
+              <th>Student</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (records.length === 0) { %>
+            <tr>
+              <td colspan="4" class="empty-state">
+                No attendance records found for this exam.
+              </td>
+            </tr>
+            <% } else { %> <% records.forEach(r => { %>
+            <tr>
+              <td><%= r.classroom %></td>
+              <td><%= r.bench_number %></td>
+              <td><%= r.student %></td>
+              <td>
+                <span
+                  class="status-badge <%= r.status === 'PRESENT' ? 'status-present' : 'status-absent' %>"
+                >
+                  <%= r.status === 'PRESENT' ? 'Present' : 'Absent' %>
+                </span>
+              </td>
+            </tr>
+            <% }) %> <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </body>
 </html>

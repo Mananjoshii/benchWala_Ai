@@ -1,46 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Staff Dashboard</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Exam Duties - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/staff.css" />
   </head>
   <body>
-    <h2>My Exam Duties</h2>
+    <div class="page-container">
+      <div class="page-header">
+        <h2>My Exam Duties</h2>
+        <p>View and manage your assigned invigilation tasks</p>
+      </div>
 
-    <% if (assignments.length === 0) { %>
-    <p>No exam duties assigned.</p>
-    <% } else { %>
-    <table border="1">
-      <tr>
-        <th>Exam</th>
-        <th>Date</th>
-        <th>Session</th>
-        <th>Classroom</th>
-        <th>Action</th>
-      </tr>
-
-      <% assignments.forEach(a => { %>
-      <tr>
-        <td><%= a.title %></td>
-        <td><%= a.exam_date %></td>
-        <td><%= a.session %></td>
-        <td><%= a.classroom %></td>
-        <td>
-          <a
-            href="/staff/exams/<%= a.exam_id %>/classrooms/<%= a.classroom_id %>/attendance"
-          >
-            Mark Attendance
-          </a>
-        </td>
-        <td>
-          <a
-            href="/staff/exams/<%= a.exam_id %>/classrooms/<%= a.classroom_id %>/booklets"
-          >
-            Enter Booklet Count
-          </a>
-        </td>
-      </tr>
-      <% }) %>
-    </table>
-    <% } %>
+      <% if (assignments.length === 0) { %>
+      <div class="empty-state">
+        <p>
+          No exam duties assigned yet.<br />You will see your schedule here when
+          duties are allocated.
+        </p>
+      </div>
+      <% } else { %>
+      <div class="duty-card">
+        <table class="duty-table">
+          <thead>
+            <tr>
+              <th>Exam</th>
+              <th>Date</th>
+              <th>Session</th>
+              <th>Classroom</th>
+              <th style="text-align: center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% assignments.forEach(a => { %>
+            <tr>
+              <td class="exam-title"><%= a.title %></td>
+              <td><%= a.exam_date %></td>
+              <td><%= a.session %></td>
+              <td><strong><%= a.classroom %></strong></td>
+              <td>
+                <div class="action-links">
+                  <a
+                    href="/staff/exams/<%= a.exam_id %>/classrooms/<%= a.classroom_id %>/attendance"
+                    class="action-link attendance-link"
+                  >
+                    📝 Mark Attendance
+                  </a>
+                  <a
+                    href="/staff/exams/<%= a.exam_id %>/classrooms/<%= a.classroom_id %>/booklets"
+                    class="action-link booklet-link"
+                  >
+                    📦 Enter Booklet Count
+                  </a>
+                </div>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+    </div>
   </body>
 </html>

@@ -3,14 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Admin Dashboard - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/global-admin.css" />
   </head>
   <body>
-    <h2>Global Admin Dashboard</h2>
-    <p>Welcome, <%= session.user.name %></p>
-    <a href="/exams/create">Create Exam</a><br />
-    <a href="/exams">View Exams</a><br />
-    <a href="/classrooms/create">Create Classroom</a><br />
-    <a href="/classrooms">View Classrooms</a><br />
+    <div class="page-container">
+      <div class="dashboard-header">
+        <h2>Global Admin Dashboard</h2>
+        <p class="welcome-text">
+          Welcome back, <strong><%= session.user.name %></strong> 👋
+        </p>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <div class="action-card">
+          <h3>Create New Exam</h3>
+          <p>Set up exam schedule, allocate classrooms and benches</p>
+          <a href="/exams/create" class="action-btn">Create Exam</a>
+        </div>
+
+        <div class="action-card">
+          <h3>Manage Classrooms</h3>
+          <p>Add or view existing classrooms and bench layouts</p>
+          <a href="/classrooms" class="action-btn">View Classrooms</a>
+        </div>
+
+        <div class="action-card">
+          <h3>View All Exams</h3>
+          <p>Monitor attendance, booklet status and reports</p>
+          <a href="/exams" class="action-btn">View Exams</a>
+        </div>
+
+        <div class="action-card">
+          <h3>System Reports</h3>
+          <p>Download attendance and resource reports</p>
+          <a href="/reports" class="action-btn">View Reports</a>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
