@@ -3,27 +3,83 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Create Classroom - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/create.css" />
   </head>
   <body>
-    <h2>Create Classroom</h2>
+    <div class="page-container">
+      <div class="form-card">
+        <div class="form-header">
+          <h2>Create New Classroom</h2>
+        </div>
 
-    <form method="POST" action="/classrooms/create">
-      <input name="name" placeholder="Room Name (CSE-101)" required />
-      <input name="floor" type="number" placeholder="Floor" />
-      <input name="rows" type="number" placeholder="Rows" required />
-      <input name="cols" type="number" placeholder="Columns" required />
+        <div class="form-body">
+          <form method="POST" action="/classrooms/create">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="name">Room Name</label>
+                <input
+                  id="name"
+                  name="name"
+                  placeholder="e.g., CSE-101"
+                  required
+                />
+              </div>
 
-      <% if (departments && departments.length) { %>
-      <select name="department_id" required>
-        <option value="">Select Department</option>
-        <% departments.forEach(d => { %>
-        <option value="<%= d.id %>"><%= d.name %></option>
-        <% }) %>
-      </select>
-      <% } %>
+              <div class="form-group">
+                <label for="floor">Floor</label>
+                <input
+                  id="floor"
+                  name="floor"
+                  type="number"
+                  placeholder="e.g., 2"
+                  min="0"
+                />
+              </div>
 
-      <button type="submit">Create Classroom</button>
-    </form>
+              <div class="form-group">
+                <label for="rows">Number of Rows</label>
+                <input
+                  id="rows"
+                  name="rows"
+                  type="number"
+                  placeholder="e.g., 8"
+                  required
+                  min="1"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="cols">Number of Columns</label>
+                <input
+                  id="cols"
+                  name="cols"
+                  type="number"
+                  placeholder="e.g., 10"
+                  required
+                  min="1"
+                />
+              </div>
+
+              <% if (departments && departments.length) { %>
+              <div class="form-group">
+                <label for="department">Department</label>
+                <select id="department" name="department_id" required>
+                  <option value="">Select Department</option>
+                  <% departments.forEach(d => { %>
+                  <option value="<%= d.id %>"><%= d.name %></option>
+                  <% }) %>
+                </select>
+              </div>
+              <% } %>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-submit">Create Classroom</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

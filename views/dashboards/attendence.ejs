@@ -3,34 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Attendence</title>
+    <title>Mark Attendance - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/mark-attendance.css" />
   </head>
   <body>
-    <h2>Mark Attendance</h2>
+    <div class="page-container">
+      <div class="page-header">
+        <h2>Mark Attendance</h2>
+      </div>
 
-    <form method="POST">
-      <table border="1">
-        <tr>
-          <th>Bench</th>
-          <th>Student</th>
-          <th>Status</th>
-        </tr>
+      <div class="attendance-card">
+        <form method="POST">
+          <table class="attendance-table">
+            <thead>
+              <tr>
+                <th>Bench</th>
+                <th>Student Name</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (students.length === 0) { %>
+              <tr>
+                <td colspan="3" class="empty-state">
+                  No students assigned to this classroom for the exam.
+                </td>
+              </tr>
+              <% } else { %> <% students.forEach(s => { %>
+              <tr>
+                <td class="bench-number"><%= s.bench_number %></td>
+                <td><strong><%= s.name %></strong></td>
+                <td>
+                  <select name="<%= s.id %>" required>
+                    <option value="PRESENT" selected>PRESENT</option>
+                    <option value="ABSENT">ABSENT</option>
+                  </select>
+                </td>
+              </tr>
+              <% }) %> <% } %>
+            </tbody>
+          </table>
 
-        <% students.forEach(s => { %>
-        <tr>
-          <td><%= s.bench_number %></td>
-          <td><%= s.name %></td>
-          <td>
-            <select name="<%= s.id %>" required>
-              <option value="PRESENT">Present</option>
-              <option value="ABSENT">Absent</option>
-            </select>
-          </td>
-        </tr>
-        <% }) %>
-      </table>
-
-      <button type="submit">Submit Attendance</button>
-    </form>
+          <% if (students.length > 0) { %>
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">Submit Attendance</button>
+          </div>
+          <% } %>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

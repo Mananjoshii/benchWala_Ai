@@ -1,14 +1,52 @@
-<h2>Create Exam</h2>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Exam - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/create.css" />
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="form-card">
+        <div class="form-header">
+          <h2>Create New Exam</h2>
+        </div>
 
-<form method="POST" action="/exams/create">
-  <input name="title" placeholder="Exam Title" required />
-  <input type="date" name="exam_date" required />
+        <div class="form-body">
+          <form method="POST" action="/exams/create">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="title">Exam Title</label>
+                <input
+                  id="title"
+                  name="title"
+                  placeholder="e.g., End Semester Examination - CSE"
+                  required
+                />
+              </div>
 
-  <select name="session" required>
-    <option value="">Select Session</option>
-    <option value="FN">FN</option>
-    <option value="AN">AN</option>
-  </select>
+              <div class="form-group">
+                <label for="date">Exam Date</label>
+                <input id="date" type="date" name="exam_date" required />
+              </div>
 
-  <button type="submit">Create</button>
-</form>
+              <div class="form-group">
+                <label for="session">Session</label>
+                <select id="session" name="session" required>
+                  <option value="">Select Session</option>
+                  <option value="FN">Forenoon (FN)</option>
+                  <option value="AN">Afternoon (AN)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-submit">Create Exam</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

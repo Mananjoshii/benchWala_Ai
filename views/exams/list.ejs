@@ -3,37 +3,63 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Exams - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/create-exam.css" />
   </head>
   <body>
-    <h2>Exams</h2>
+    <div class="page-container">
+      <div class="page-header">
+        <h2>All Exams</h2>
+        <a href="/exams/create" class="btn-primary"> ➕ Create New Exam </a>
+      </div>
 
-    <table border="1">
-      <tr>
-        <th>Title</th>
-        <th>Date</th>
-        <th>Session</th>
-        <th>Created By</th>
-        <th>Attendence</th>
-        <th>Booklet Status</th>
-      </tr>
-
-      <% exams.forEach(exam => { %>
-      <tr>
-        <td>
-          <a href="/exams/<%= exam.id %>"> <%= exam.title %> </a>
-        </td>
-        <td><%= exam.exam_date %></td>
-        <td><%= exam.session %></td>
-        <td><%= exam.creator %></td>
-        <td>
-          <a href="/admin/exams/<%= exam.id %>/attendance"> View Attendance </a>
-        </td>
-        <td>
-          <a href="/admin/exams/<%= exam.id %>/booklets"> View </a>
-        </td>
-      </tr>
-      <% }) %>
-    </table>
+      <div class="table-card">
+        <table class="exams-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Date</th>
+              <th>Session</th>
+              <th>Created By</th>
+              <th colspan="2" style="text-align: center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (exams.length === 0) { %>
+            <tr>
+              <td colspan="6" class="empty-state">
+                No exams created yet. Create your first exam to get started!
+              </td>
+            </tr>
+            <% } else { %> <% exams.forEach(exam => { %>
+            <tr>
+              <td class="exam-title">
+                <a href="/exams/<%= exam.id %>"><%= exam.title %></a>
+              </td>
+              <td><%= exam.exam_date %></td>
+              <td><strong><%= exam.session %></strong></td>
+              <td><%= exam.creator %></td>
+              <td>
+                <div class="action-links">
+                  <a
+                    href="/admin/exams/<%= exam.id %>/attendance"
+                    class="attendance-link"
+                  >
+                    📊 View Attendance
+                  </a>
+                  <a
+                    href="/admin/exams/<%= exam.id %>/booklets"
+                    class="booklet-link"
+                  >
+                    📦 Booklet Status
+                  </a>
+                </div>
+              </td>
+            </tr>
+            <% }) %> <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </body>
 </html>

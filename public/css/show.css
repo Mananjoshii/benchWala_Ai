@@ -1,0 +1,187 @@
+/* Updated /css/style.css - Advanced Exam Details page styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fc;
+  color: #1e293b;
+  line-height: 1.6;
+}
+
+/* Page Container */
+.page-container {
+  min-height: 100vh;
+  margin-top: 80px;
+  margin-left: 260px;
+  padding: 3rem 5%;
+  background: linear-gradient(to bottom right, #f8f9fc, #eef2ff);
+}
+
+/* Exam Header */
+.exam-header {
+  background: #ffffff;
+  padding: 2.5rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+  margin-bottom: 3rem;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+}
+
+.exam-header h2 {
+  font-size: 2.6rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #2563eb, #4f46e5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.8rem;
+}
+
+.exam-header p {
+  font-size: 1.4rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+/* Section Cards */
+.section-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.5rem 3rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+}
+
+.section-card h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1.8rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+/* Forms */
+.action-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  align-items: end;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.7rem;
+}
+
+.form-group select,
+.form-group input[type="file"] {
+  padding: 1.1rem 1.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  background-color: #f8fafc;
+  cursor: pointer;
+}
+
+.form-group select:focus,
+.form-group input[type="file"]:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+}
+
+.action-form button {
+  padding: 1.1rem 2.5rem;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+  transition: all 0.3s ease;
+}
+
+.action-form button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+}
+
+/* Lists */
+.dept-list,
+.classroom-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+
+.dept-list li,
+.classroom-list li {
+  background: #f0f7ff;
+  padding: 1.2rem 1.8rem;
+  border-radius: 12px;
+  font-weight: 500;
+  border-left: 5px solid #2563eb;
+}
+
+.classroom-list li a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.classroom-list li a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* Empty States */
+.empty-list {
+  text-align: center;
+  padding: 3rem;
+  color: #64748b;
+  font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .page-container {
+    margin-left: 0;
+    padding: 2rem 5%;
+  }
+}
+
+@media (max-width: 768px) {
+  .action-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .action-form button {
+    width: 100%;
+  }
+  
+  .dept-list,
+  .classroom-list {
+    grid-template-columns: 1fr;
+  }
+}

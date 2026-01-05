@@ -3,16 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Booklets</title>
+    <title>Booklet Distribution - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/booklets-distribution.css" />
   </head>
   <body>
-    <h2>Booklet Distribution</h2>
+    <div class="page-container">
+      <div class="page-header">
+        <h2>Booklet Distribution</h2>
+      </div>
 
-    <form method="POST">
-      <label>Number of booklets received:</label><br />
-      <input type="number" name="received_count" required min="0" />
-      <br /><br />
-      <button type="submit">Submit</button>
-    </form>
+      <div class="form-card">
+        <div class="form-header">
+          <h3>Enter Booklets Received</h3>
+        </div>
+
+        <div class="form-body">
+          <form method="POST">
+            <div class="form-group">
+              <label for="received">Number of booklets received</label>
+              <input
+                id="received"
+                type="number"
+                name="received_count"
+                placeholder="0"
+                required
+                min="0"
+                step="1"
+              />
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-submit">
+                Submit Booklet Count
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

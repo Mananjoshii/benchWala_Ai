@@ -3,25 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Classrooms - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/list.css" />
   </head>
   <body>
-    <table border="1">
-      <tr>
-        <th>Room</th>
-        <th>Floor</th>
-        <th>Department</th>
-        <th>Total Benches</th>
-      </tr>
+    <div class="page-container">
+      <div class="page-header">
+        <h2>All Classrooms</h2>
+        <a href="/classrooms/create" class="btn-primary">
+          ➕ Add New Classroom
+        </a>
+      </div>
 
-      <% classrooms.forEach(c => { %>
-      <tr>
-        <td><%= c.name %></td>
-        <td><%= c.floor %></td>
-        <td><%= c.department %></td>
-        <td><%= c.total_benches %></td>
-      </tr>
-      <% }) %>
-    </table>
+      <div class="table-card">
+        <table class="classrooms-table">
+          <thead>
+            <tr>
+              <th>Room</th>
+              <th>Floor</th>
+              <th>Department</th>
+              <th>Total Benches</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (classrooms.length === 0) { %>
+            <tr>
+              <td colspan="4" class="empty-state">
+                No classrooms added yet. Create your first one!
+              </td>
+            </tr>
+            <% } else { %> <% classrooms.forEach(c => { %>
+            <tr>
+              <td><strong><%= c.name %></strong></td>
+              <td><%= c.floor !== null ? c.floor : '-' %></td>
+              <td><%= c.department || '-' %></td>
+              <td class="bench-count"><%= c.total_benches %></td>
+            </tr>
+            <% }) %> <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </body>
 </html>

@@ -3,98 +3,150 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title><%= exam.title %> - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/show.css" />
   </head>
   <body>
-    <h2><%= exam.title %></h2>
-    <p>Date: <%= exam.exam_date %> | Session: <%= exam.session %></p>
+    <div class="page-container">
+      <div class="exam-header">
+        <h2><%= exam.title %></h2>
+        <p>Date: <%= exam.exam_date %> | Session: <%= exam.session %></p>
+      </div>
 
-    <% if (session.user.role === "GLOBAL_ADMIN") { %>
+      <% if (session.user.role === "GLOBAL_ADMIN") { %>
+      <div class="section-card">
+        <h3>Add Department to Exam</h3>
+        <form
+          method="POST"
+          action="/exams/<%= exam.id %>/departments"
+          class="action-form"
+        >
+          <div class="form-group">
+            <label for="dept-global">Department</label>
+            <select id="dept-global" name="department_id" required>
+              <option value="">Select Department</option>
+              <% departments.forEach(d => { %>
+              <option value="<%= d.id %>"><%= d.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <button type="submit">Add Department</button>
+        </form>
+      </div>
+      <% } %> <% if (session.user.role === "LOCAL_ADMIN") { %>
+      <div class="section-card">
+        <h3>Assign Classroom to this Exam</h3>
+        <form
+          method="POST"
+          action="/exams/<%= exam.id %>/classrooms"
+          class="action-form"
+        >
+          <div class="form-group">
+            <label for="classroom">Classroom</label>
+            <select id="classroom" name="classroom_id" required>
+              <option value="">Select Classroom</option>
+              <% departmentClassrooms.forEach(c => { %>
+              <option value="<%= c.id %>"><%= c.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <button type="submit">Add Classroom</button>
+        </form>
+      </div>
+      <% } %>
 
-    <h3>Add Department to Exam</h3>
+      <div class="section-card">
+        <h3>Departments in this Exam</h3>
+        <% if (examDepartments.length === 0) { %>
+        <p class="empty-list">No departments assigned yet.</p>
+        <% } else { %>
+        <ul class="dept-list">
+          <% examDepartments.forEach(ed => { %>
+          <li><%= ed.department %></li>
+          <% }) %>
+        </ul>
+        <% } %>
+      </div>
 
-    <form method="POST" action="/exams/<%= exam.id %>/departments">
-      <select name="department_id" required>
-        <option value="">Select Department</option>
-        <% departments.forEach(d => { %>
-        <option value="<%= d.id %>"><%= d.name %></option>
-        <% }) %>
-      </select>
+      <% if (session.user.role === "LOCAL_ADMIN") { %>
+      <div class="section-card">
+        <h3>Your Classrooms for this Exam</h3>
+        <% if (examClassrooms.length === 0) { %>
+        <p class="empty-list">No classrooms assigned yet.</p>
+        <% } else { %>
+        <ul class="classroom-list">
+          <% examClassrooms.forEach(c => { %>
+          <li>
+            <a href="/exams/<%= exam.id %>/classrooms/<%= c.classroom_id %>">
+              <%= c.classroom_name %>
+            </a>
+          </li>
+          <% }) %>
+        </ul>
+        <% } %>
+      </div>
 
-      <button type="submit">Add Department</button>
-    </form>
+      <div class="section-card">
+        <h3>Bulk Uploads</h3>
 
-    <hr />
+        <form
+          method="POST"
+          action="/exams/<%= exam.id %>/upload-classrooms"
+          enctype="multipart/form-data"
+          class="action-form"
+        >
+          <div class="form-group">
+            <label for="file-classrooms">Upload Classrooms (CSV/Excel)</label>
+            <input
+              id="file-classrooms"
+              type="file"
+              name="file"
+              accept=".csv,.xlsx,.xls"
+              required
+            />
+          </div>
+          <button type="submit">Upload Classrooms</button>
+        </form>
 
-    <% } %> <% if (session.user.role === "LOCAL_ADMIN") { %>
+        <form
+          method="POST"
+          action="/exams/<%= exam.id %>/upload-students"
+          enctype="multipart/form-data"
+          class="action-form"
+        >
+          <div class="form-group">
+            <label for="file-students">Upload Students (Auto Allocate)</label>
+            <input
+              id="file-students"
+              type="file"
+              name="file"
+              accept=".csv,.xlsx,.xls"
+              required
+            />
+          </div>
+          <button type="submit">Upload & Allocate Students</button>
+        </form>
 
-    <h3>Assign Classroom to this Exam</h3>
-
-    <form method="POST" action="/exams/<%= exam.id %>/classrooms">
-      <select name="classroom_id" required>
-        <option value="">Select Classroom</option>
-        <% departmentClassrooms.forEach(c => { %>
-        <option value="<%= c.id %>"><%= c.name %></option>
-        <% }) %>
-      </select>
-
-      <button type="submit">Add Classroom</button>
-    </form>
-
-    <% } %>
-
-    <h3>Departments in this Exam</h3>
-    <ul>
-      <% examDepartments.forEach(ed => { %>
-      <li><%= ed.department %></li>
-      <% }) %>
-    </ul>
-
-    <% if (session.user.role === "LOCAL_ADMIN") { %>
-    <h3>Your Classrooms for this Exam</h3>
-    <ul>
-      <% examClassrooms.forEach(c => { %>
-      <li>
-        <a href="/exams/<%= exam.id %>/classrooms/<%= c.classroom_id %>">
-          <%= c.classroom_name %>
-        </a>
-      </li>
-      <% }) %>
-    </ul>
-    <%}%> <% if (session.user.role === "LOCAL_ADMIN") { %>
-
-    <h3>Upload Classrooms</h3>
-    <form
-      method="POST"
-      action="/exams/<%= exam.id %>/upload-classrooms"
-      enctype="multipart/form-data"
-    >
-      <input type="file" name="file" required />
-      <button type="submit">Upload Classrooms</button>
-    </form>
-
-    <h3>Upload Students (Auto Allocate)</h3>
-    <form
-      method="POST"
-      action="/exams/<%= exam.id %>/upload-students"
-      enctype="multipart/form-data"
-    >
-      <input type="file" name="file" required />
-      <button type="submit">Upload Students & Allocate</button>
-    </form>
-
-    <% if (session.user.role === "LOCAL_ADMIN") { %>
-
-    <h3>Upload Staff (Auto Allocate)</h3>
-    <form
-      method="POST"
-      action="/exams/<%= exam.id %>/upload-staff"
-      enctype="multipart/form-data"
-    >
-      <input type="file" name="file" required />
-      <button type="submit">Upload & Allocate Staff</button>
-    </form>
-
-    <% } %> <% } %>
+        <form
+          method="POST"
+          action="/exams/<%= exam.id %>/upload-staff"
+          enctype="multipart/form-data"
+          class="action-form"
+        >
+          <div class="form-group">
+            <label for="file-staff">Upload Staff (Auto Allocate)</label>
+            <input
+              id="file-staff"
+              type="file"
+              name="file"
+              accept=".csv,.xlsx,.xls"
+              required
+            />
+          </div>
+          <button type="submit">Upload & Allocate Staff</button>
+        </form>
+      </div>
+      <% } %>
+    </div>
   </body>
 </html>

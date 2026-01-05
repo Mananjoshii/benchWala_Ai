@@ -1,0 +1,176 @@
+/* Updated /css/style.css - Fixed sidebar position */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fc;
+  color: #1e293b;
+  line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 5%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.nav-links a {
+  margin-left: 2rem;
+  text-decoration: none;
+  color: #475569;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #2563eb;
+}
+
+/* Main Layout - Starts below fixed navbar */
+.layout {
+  display: flex;
+  min-height: 100vh;
+  margin-top: 80px; /* Offset for fixed navbar */
+}
+
+/* Sidebar - Fixed on left */
+.sidebar {
+  position: fixed;
+  top: 80px; /* Starts right below navbar */
+  left: 0;
+  width: 260px;
+  height: calc(100vh - 80px);
+  background-color: #ffffff;
+  padding: 2rem 1.5rem;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+}
+
+.sidebar h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: #334155;
+  font-weight: 600;
+}
+
+.sidebar a {
+  display: block;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.5rem;
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar a:hover {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+/* Content - Adjusted for fixed sidebar */
+.content {
+  flex: 1;
+  padding: 3rem 5%;
+  margin-left: 260px; /* Space for fixed sidebar */
+  background-color: #f8f9fc;
+}
+
+.content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+.content p {
+  font-size: 1.2rem;
+  color: #64748b;
+  margin-bottom: 3rem;
+}
+
+/* AI Box */
+.ai-box {
+  max-width: 600px;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
+}
+
+.ai-box h4 {
+  margin-bottom: 1rem;
+  color: #334155;
+  font-weight: 600;
+}
+
+.ai-box input {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #f1f5f9;
+}
+
+.ai-box input:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.ai-box small {
+  display: block;
+  margin-top: 0.8rem;
+  color: #64748b;
+  font-style: italic;
+}
+
+/* Responsive - Stack on smaller screens */
+@media (max-width: 992px) {
+  .sidebar {
+    position: static;
+    width: 220px;
+    left: 20px;
+    height: auto;
+    box-shadow: none;
+  }
+  
+  .content {
+    
+    margin-left: 0;
+    padding: 2rem 5%;
+  }
+  
+  /* .layout {
+    flex-direction: column;
+  } */
+  
+  .sidebar a {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+}

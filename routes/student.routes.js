@@ -18,6 +18,20 @@ router.get(
        WHERE es.student_id = ?`,
       [studentId]
     );
+    // Inside your route handler
+    const dateOptionsFull = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    const dateOptionsDate = { month: "long", day: "numeric", year: "numeric" };
+
+    exams.forEach((exam) => {
+      const date = new Date(exam.exam_date);
+      exam.day_of_week = date.toLocaleDateString("en-US", { weekday: "long" }); // Monday
+      exam.formatted_date = date.toLocaleDateString("en-US", dateOptionsDate); // January 6, 2026
+    });
 
     res.render("student/exams", { exams });
   }

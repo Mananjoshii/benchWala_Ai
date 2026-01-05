@@ -3,30 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Booklet Status - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/booklets.css" />
   </head>
   <body>
-    <h2>Booklet Status</h2>
+    <div class="page-container">
+      <div class="page-header">
+        <h2>Booklet Distribution Status</h2>
+      </div>
 
-    <table border="1">
-      <tr>
-        <th>Classroom</th>
-        <th>Present Students</th>
-        <th>Booklets Received</th>
-        <th>Status</th>
-      </tr>
+      <!-- Summary Cards (calculate in backend or use dummy for now) -->
 
-      <% rows.forEach(r => { %>
-      <tr>
-        <td><%= r.classroom %></td>
-        <td><%= r.present_students %></td>
-        <td><%= r.received_count %></td>
-        <td>
-          <% if (r.shortage > 0) { %> ❌ Short by <%= r.shortage %> <% } else {
-          %> ✅ OK <% } %>
-        </td>
-      </tr>
-      <% }) %>
-    </table>
+      <div class="table-card">
+        <table class="booklet-table">
+          <thead>
+            <tr>
+              <th>Classroom</th>
+              <th>Present Students</th>
+              <th>Booklets Received</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (rows.length === 0) { %>
+            <tr>
+              <td
+                colspan="4"
+                style="text-align: center; padding: 3rem; color: #64748b"
+              >
+                No booklet data available yet.
+              </td>
+            </tr>
+            <% } else { %> <% rows.forEach(r => { %>
+            <tr>
+              <td><%= r.classroom %></td>
+              <td><%= r.present_students %></td>
+              <td><%= r.received_count %></td>
+              <td class="status-cell">
+                <% if (r.shortage > 0) { %>
+                <span class="status-short">
+                  ❌ Short by <%= r.shortage %>
+                </span>
+                <% } else { %>
+                <span class="status-ok"> OK </span>
+                <% } %>
+              </td>
+            </tr>
+            <% }) %> <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </body>
 </html>

@@ -3,13 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Local Admin Dashboard - benchWalaAi</title>
+    <link rel="stylesheet" href="/css/local-admin.css" />
   </head>
   <body>
-    <h2>Local Admin Dashboard</h2>
-    <p>Welcome, <%= session.user.name %></p>
-    <a href="/exams">View Exams</a><br />
-    <a href="/classrooms/create">Create Classroom</a><br />
-    <a href="/classrooms">View Classrooms</a><br />
+    <div class="page-container">
+      <div class="dashboard-header">
+        <h2>Local Admin Dashboard</h2>
+        <p class="welcome-text">
+          Welcome back, <strong><%= session.user.name %></strong> 👋
+        </p>
+      </div>
+
+      <!-- Quick Actions for Local Admin -->
+      <div class="quick-actions">
+        <div class="action-card">
+          <h3>View Assigned Exams</h3>
+          <p>Check exam schedules, attendance and booklet status</p>
+          <a href="/exams" class="action-btn">View Exams</a>
+        </div>
+
+        <div class="action-card">
+          <h3>Add New Classroom</h3>
+          <p>Create classroom layout with rows and columns</p>
+          <a href="/classrooms/create" class="action-btn">Create Classroom</a>
+        </div>
+
+        <div class="action-card">
+          <h3>Manage Classrooms</h3>
+          <p>View and edit your existing classrooms</p>
+          <a href="/classrooms" class="action-btn">View Classrooms</a>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
