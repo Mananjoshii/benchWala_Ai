@@ -1,0 +1,200 @@
+/* /css/about.css - Advanced About page styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(to bottom right, #f8f9fc, #eef2ff);
+  color: #1e293b;
+  line-height: 1.8;
+  min-height: 100vh;
+}
+
+/* Page Container */
+.page-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 5%;
+}
+
+/* Header */
+.page-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.page-header h1 {
+  font-size: 3.2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #2563eb, #4f46e5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.5rem;
+}
+
+/* Intro Section */
+.intro-section {
+  background: #ffffff;
+  padding: 3rem 3.5rem;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  margin-bottom: 4rem;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+/* Workflow Section */
+.workflow-section {
+  background: #ffffff;
+  padding: 3.5rem 3.5rem;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  margin-bottom: 4rem;
+  border: 1px solid #e2e8f0;
+}
+
+.workflow-section h3 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  text-align: center;
+  color: #1e293b;
+  background: linear-gradient(90deg, #2563eb, #4f46e5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.workflow-list {
+  counter-reset: step-counter;
+  display: grid;
+  gap: 2rem;
+}
+
+.workflow-item {
+  position: relative;
+  padding-left: 4.5rem;
+  font-size: 1.15rem;
+  color: #334155;
+}
+
+.workflow-item::before {
+  counter-increment: step-counter;
+  content: counter(step-counter);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3.2rem;
+  height: 3.2rem;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
+  font-size: 1.6rem;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+}
+
+.workflow-item strong {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+/* Access Section */
+.access-section {
+  background: #ffffff;
+  padding: 3rem 3.5rem;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  margin-bottom: 4rem;
+  border: 1px solid #e2e8f0;
+}
+
+.access-section h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #1e293b;
+}
+
+.access-list {
+  list-style: none;
+  display: grid;
+  gap: 1.5rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.access-list li {
+  padding-left: 2.5rem;
+  position: relative;
+  font-size: 1.15rem;
+  color: #334155;
+}
+
+.access-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #16a34a;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+/* Closing */
+.closing {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #475569;
+  font-style: italic;
+  padding: 2.5rem;
+  background: #f0f7ff;
+  border-radius: 16px;
+  border: 1px dashed #2563eb;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .page-container {
+    padding: 3rem 5%;
+  }
+  
+  .workflow-list,
+  .access-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 2.8rem;
+  }
+  
+  .workflow-section,
+  .access-section,
+  .intro-section {
+    padding: 2.5rem 2rem;
+  }
+  
+  .workflow-item {
+    padding-left: 4rem;
+  }
+  
+  .workflow-item::before {
+    width: 2.8rem;
+    height: 2.8rem;
+    font-size: 1.4rem;
+  }
+}

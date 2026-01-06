@@ -1,6 +1,8 @@
-CREATE DATABASE benchwala_ai;
-USE benchwala_ai;
+/* ===============================
+   BenchWalaAI – Complete Schema
+   =============================== */
 
+-- 1. ROLES
 CREATE TABLE roles (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50) UNIQUE NOT NULL
@@ -12,27 +14,141 @@ INSERT INTO roles (name) VALUES
 ('STAFF'),
 ('STUDENT');
 
+
+-- 2. DEPARTMENTS
+CREATE TABLE departments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) UNIQUE NOT NULL
+);
+
+
+-- 3. USERS
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) UNIQUE NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
   role_id INT NOT NULL,
+  department_id INT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (role_id) REFERENCES roles(id)
+  FOREIGN KEY (role_id) REFERENCES roles(id),
+  FOREIGN KEY (department_id) REFERENCES departments(id)
 );
 
+
+-- 4. EXAMS
 CREATE TABLE exams (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(100) NOT NULL,
+  title VARCHAR(150) NOT NULL,
   exam_date DATE NOT NULL,
-  session ENUM('FN', 'AN') NOT NULL,
+  session ENUM('FN','AN') NOT NULL,
   created_by INT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (created_by) REFERENCES users(id)
 );
 
-CREATE TABLE departments (
+
+-- 5. EXAM ↔ DEPARTMENTS
+CREATE TABLE exam_departments (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) UNIQUE NOT NULL
+  exam_id INT NOT NULL,
+  department_id INT NOT NULL,
+  UNIQUE (exam_id, department_id),
+  FOREIGN KEY (exam_id) REFERENCES exams(id),
+  FOREIGN KEY (department_id) REFERENCES departments(id)
+);
+
+
+-- 6. CLASSROOMS
+CREATE TABLE classrooms (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  floor INT,
+  total_benches INT NOT NULL,
+  department_id INT NOT NULL,
+  FOREIGN KEY (department_id) REFERENCES departments(id)
+);
+
+
+-- 7. BENCHES
+CREATE TABLE benches (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  classroom_id INT NOT NULL,
+  bench_number INT NOT NULL,
+  UNIQUE (classroom_id, bench_number),
+  FOREIGN KEY (classroom_id) REFERENCES classrooms(id)
+);
+
+
+-- 8. EXAM ↔ CLASSROOMS
+CREATE TABLE exam_classrooms (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  exam_id INT NOT NULL,
+  department_id INT NOT NULL,
+  classroom_id INT NOT NULL,
+  seats_frozen BOOLEAN DEFAULT FALSE,
+  UNIQUE (exam_id, classroom_id),
+  FOREIGN KEY (exam_id) REFERENCES exams(id),
+  FOREIGN KEY (department_id) REFERENCES departments(id),
+  FOREIGN KEY (classroom_id) REFERENCES classrooms(id)
+);
+
+
+-- 9. EXAM SEAT ALLOCATION
+CREATE TABLE exam_seats (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  exam_id INT NOT NULL,
+  classroom_id INT NOT NULL,
+  bench_id INT NOT NULL,
+  student_id INT NOT NULL,
+  UNIQUE (exam_id, student_id),
+  UNIQUE (exam_id, bench_id),
+  FOREIGN KEY (exam_id) REFERENCES exams(id),
+  FOREIGN KEY (classroom_id) REFERENCES classrooms(id),
+  FOREIGN KEY (bench_id) REFERENCES benches(id),
+  FOREIGN KEY (student_id) REFERENCES users(id)
+);
+
+
+-- 10. EXAM STAFF ALLOCATION
+CREATE TABLE exam_staff (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  exam_id INT NOT NULL,
+  classroom_id INT NOT NULL,
+  staff_id INT NOT NULL,
+  UNIQUE (exam_id, classroom_id),
+  UNIQUE (exam_id, staff_id),
+  FOREIGN KEY (exam_id) REFERENCES exams(id),
+  FOREIGN KEY (classroom_id) REFERENCES classrooms(id),
+  FOREIGN KEY (staff_id) REFERENCES users(id)
+);
+
+
+-- 11. EXAM ATTENDANCE
+CREATE TABLE exam_attendance (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  exam_id INT NOT NULL,
+  classroom_id INT NOT NULL,
+  student_id INT NOT NULL,
+  status ENUM('PRESENT','ABSENT') NOT NULL,
+  marked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (exam_id, classroom_id, student_id),
+  FOREIGN KEY (exam_id) REFERENCES exams(id),
+  FOREIGN KEY (classroom_id) REFERENCES classrooms(id),
+  FOREIGN KEY (student_id) REFERENCES users(id)
+);
+
+
+-- 12. EXAM BOOKLETS
+CREATE TABLE exam_booklets (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  exam_id INT NOT NULL,
+  classroom_id INT NOT NULL,
+  staff_id INT NOT NULL,
+  received_count INT NOT NULL,
+  recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (exam_id, classroom_id),
+  FOREIGN KEY (exam_id) REFERENCES exams(id),
+  FOREIGN KEY (classroom_id) REFERENCES classrooms(id),
+  FOREIGN KEY (staff_id) REFERENCES users(id)
 );

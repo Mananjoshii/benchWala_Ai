@@ -71,6 +71,9 @@ app.use("/", adminAttendanceRoutes);
 const adminBookletRoutes = require("./routes/adminBooklets.routes");
 app.use("/", adminBookletRoutes);
 
+const pagesRoutes = require("./routes/pages.routes");
+app.use("/", pagesRoutes);
+
 // server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
