@@ -1,0 +1,4 @@
+get_exam_hall
+get_exam_schedule
+get_hall_info
+get_seat_location

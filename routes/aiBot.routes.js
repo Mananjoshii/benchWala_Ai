@@ -1,0 +1,115 @@
+const express = require("express");
+const db = require("../config/db");
+const { isLoggedIn, allowRoles } = require("../middleware/auth.middleware");
+const axios = require("axios");
+
+const router = express.Router();
+function extractSubjects(text) {
+  const regex = /\b[A-Z]{2,5}\d{2,4}[A-Z]*\b/g;
+  return [...new Set(text.toUpperCase().match(regex) || [])];
+}
+
+router.post("/ask-ai", async (req, res) => {
+  try {
+    const { text } = req.body;
+    if (!text) {
+      return res.status(400).json({ error: "Text required" });
+    }
+
+    /* 1️⃣ Extract subject codes */
+    const subjects = extractSubjects(text);
+
+    /* 2️⃣ Clean text for AI */
+    let cleanText = text;
+    subjects.forEach((sub) => {
+      cleanText = cleanText.replace(new RegExp(sub, "gi"), "subject");
+    });
+
+    /* 3️⃣ Ask AI for intent */
+    const aiRes = await axios.post("http://127.0.0.1:8000/predict", {
+      text: cleanText,
+    });
+
+    const { intent, confidence } = aiRes.data;
+
+    /* 4️⃣ If NOT logged in → ask to login */
+    if (!req.session.user) {
+      // save query so it can be answered after login
+      req.session.pendingAIQuery = {
+        text,
+        intent,
+        subjects,
+      };
+
+      return res.json({
+        response: `
+          <p>🔒 Please <a href="/login">login</a> to view your exam details.</p>
+        `,
+      });
+    }
+
+    /* 5️⃣ Logged-in user */
+    const studentId = req.session.user.id;
+    let html = "";
+
+    switch (intent) {
+      case "get_exam_schedule": {
+        html = await getExamSchedule(studentId);
+        break;
+      }
+
+      case "get_seat_location": {
+        if (!subjects.length) {
+          html = "<b>Please specify the subject code.</b>";
+        } else {
+          html = await getSeatLocation(studentId, subjects[0]);
+        }
+        break;
+      }
+
+      case "get_exam_hall": {
+        if (!subjects.length) {
+          html = "<b>Please specify the subject code.</b>";
+        } else {
+          html = await getExamHall(studentId, subjects[0]);
+        }
+        break;
+      }
+
+      default:
+        html = "<b>Sorry, I didn't understand your request.</b>";
+    }
+
+    res.json({
+      response: html,
+      intent,
+      confidence,
+    });
+  } catch (err) {
+    console.error("ASK-AI ERROR:", err);
+    res.status(500).json({ error: "AI failed" });
+  }
+});
+
+const {
+  getExamSchedule,
+  getSeatLocation,
+  getExamHall,
+} = require("./aiStudent.routes");
+
+router.get("/ai-response", isLoggedIn, async (req, res) => {
+  const studentId = req.session.user.id;
+  const { intent, subjects } = req.session.pendingAIQuery || {};
+
+  delete req.session.pendingAIQuery;
+
+  let html = "<b>No pending AI query.</b>";
+
+  if (intent === "get_exam_schedule") {
+    html = await getExamSchedule(studentId);
+  }
+
+  res.render("ai-response", { html });
+});
+
+module.exports = router;

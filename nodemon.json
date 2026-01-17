@@ -1,0 +1,5 @@
+{
+  "ignore": ["venv/**", ".venv/**", "node_modules/**"],
+  "ext": "js,json",
+  "watch": ["."]
+}

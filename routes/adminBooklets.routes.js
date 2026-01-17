@@ -13,18 +13,18 @@ router.get(
 
     const [rows] = await db.query(
       `SELECT 
-         c.name AS classroom,
-         eb.received_count,
-         COUNT(ea.id) AS present_students,
-         (COUNT(ea.id) - eb.received_count) AS shortage
-       FROM exam_booklets eb
-       JOIN classrooms c ON eb.classroom_id = c.id
-       JOIN exam_attendance ea
-         ON ea.exam_id = eb.exam_id
-        AND ea.classroom_id = eb.classroom_id
-        AND ea.status = 'PRESENT'
-       WHERE eb.exam_id = ?
-       GROUP BY c.id`,
+     c.name AS classroom,
+     SUM(eb.received_count) AS received_count,
+     COUNT(ea.id) AS present_students,
+     (COUNT(ea.id) - SUM(eb.received_count)) AS shortage
+   FROM exam_booklets eb
+   JOIN classrooms c ON eb.classroom_id = c.id
+   JOIN exam_attendance ea
+     ON ea.exam_id = eb.exam_id
+    AND ea.classroom_id = eb.classroom_id
+    AND ea.status = 'PRESENT'
+   WHERE eb.exam_id = ?
+   GROUP BY c.id, c.name`,
       [examId]
     );
 

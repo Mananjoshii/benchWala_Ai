@@ -9,6 +9,12 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
+router.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
+});
+
 // login handler
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;

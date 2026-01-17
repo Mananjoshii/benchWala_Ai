@@ -74,12 +74,8 @@ app.use("/", adminBookletRoutes);
 const pagesRoutes = require("./routes/pages.routes");
 app.use("/", pagesRoutes);
 
-//logout
-app.get("/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.redirect("/");
-  });
-});
+const aiBotRoutes = require("./routes/aiBot.routes");
+app.use("/", aiBotRoutes);
 
 // server
 app.listen(DB_PORT, () => {

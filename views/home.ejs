@@ -3,6 +3,24 @@
   <head>
     <title>benchWalaAi</title>
     <link rel="stylesheet" href="/css/home.css" />
+    <script>
+      async function askBenchWala() {
+        const text = document.getElementById("ai-input").value;
+
+        if (!text.trim()) return;
+
+        const res = await fetch("/ask-ai", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        });
+
+        const data = await res.json();
+
+        document.getElementById("ai-response").innerHTML = data.response;
+
+      }
+    </script>
   </head>
 
   <body>
@@ -14,23 +32,46 @@
       <!-- SIDEBAR -->
 
       <aside class="sidebar">
-        <h3>Menu</h3>
-        <a href="#">Dashboard</a>
-        <a href="#">Exams</a>
-        <a href="#">Classrooms</a>
-        <a href="#">Reports</a>
+        <h3 style="margin-bottom: 12px; font-size: 18px; font-weight: 600;">Menu</h3>
+        <% if (!session || !session.user) { %>
+          <h3 style="margin-bottom: 12px; font-size: 18px; font-weight: 600;">
+            Sign in to access sidebar options
+          </h3>
+        <% } %>
+        <% if(session && session.user && session.user.role == 'GLOBAL_ADMIN') { %>
+        <a href="dashboard/global-admin ">Dashboard</a>
+        <a href="exams">Exams</a>
+        <a href="classrooms">Classrooms</a>
+        <a href="exams/create">Create New Exam</a>
+        <%} %>
+        <% if(session && session.user && session.user.role == 'LOCAL_ADMIN') { %>
+        <a href="dashboard/local-admin ">Dashboard</a>
+        <a href="exams">Exams</a>
+        <a href="classrooms">Classrooms</a>
+        <%} %>
+        <% if(session && session.user && session.user.role == 'STAFF') { %>
+        <a href="dashboard/staff ">Dashboard</a>
+        <%} %>
+        <% if(session && session.user && session.user.role == 'STUDENT') { %>
+        <a href="dashboard/student ">Dashboard</a>
+        <a href="student/exams">Exams</a>
+        <%} %>
       </aside>
 
       <!-- CONTENT -->
       <main class="content">
         <h1>Welcome to benchWalaAi</h1>
         <p>Exam Navigation System</p>
-        <!-- AI BOX -->
+         <!-- AI BOX -->
         <div class="ai-box">
           <h4>Ask benchWala AI</h4>
-          <input type="text" placeholder="Ask your question..." disabled />
-          <small>(Coming soon 🤖)</small>
-        </div>
+          <input
+            type="text"
+            id="ai-input"
+            placeholder="Ask your question..."
+          />
+          <button class="btn-ai-submit" onclick="askBenchWala()">Ask BenchWala AI</button>
+        <div id="ai-response"></div>
       </main>
     </div>
   </body>
