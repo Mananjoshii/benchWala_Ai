@@ -4,17 +4,16 @@ from ask_ai import predict_intent
 
 app = FastAPI()
 
-class AIRequest(BaseModel):
+class TextRequest(BaseModel):
     text: str
 
-class AIResponse(BaseModel):
-    intent: str
-    confidence: float
-
-@app.post("/predict", response_model=AIResponse)
-def predict(req: AIRequest):
-    intent, confidence = predict_intent(req.text)
-    return {
-        "intent": intent,
-        "confidence": confidence
-    }
+@app.post("/predict")
+def predict(req: TextRequest):
+    try:
+        intent, confidence = predict_intent(req.text)
+        return {
+            "intent": intent,
+            "confidence": confidence
+        }
+    except Exception as e:
+        return {"error": str(e)}

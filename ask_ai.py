@@ -1,43 +1,54 @@
 import torch
-import torch.nn.functional as F
-from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import os
-AI_MODEL_PATH = "./exam_intent_model"
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-try:
-    ai_tokenizer = DistilBertTokenizerFast.from_pretrained(AI_MODEL_PATH)
-    ai_model = DistilBertForSequenceClassification.from_pretrained(AI_MODEL_PATH)
-    ai_model.to(device)
-    ai_model.eval()
+MODEL_DIR = "exam_intent_model"
 
-    # Load label names (correct indexing)
-    with open(os.path.join(AI_MODEL_PATH, "label_names.txt"), "r") as f:
-        AI_LABELS = [line.strip() for line in f.readlines()]
+tokenizer = None
+ai_model = None
+labels = []
 
-    print("AI Model Loaded Successfully.")
+def load_model():
+    global tokenizer, ai_model, labels
 
-except Exception as e:
-    print("Failed to load AI model:", e)
-    AI_LABELS = []
+    if ai_model is not None:
+        return
 
-def predict_intent(text):
-    inputs = ai_tokenizer(
+    # load labels
+    with open(os.path.join(MODEL_DIR, "label_names.txt")) as f:
+        labels = [line.strip() for line in f.readlines()]
+
+    try:
+        tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
+        ai_model = AutoModelForSequenceClassification.from_pretrained(
+            MODEL_DIR,
+            num_labels=len(labels)
+        )
+        ai_model.eval()
+        print("✅ AI model loaded successfully")
+
+    except Exception as e:
+        print("❌ Failed to load AI model:", e)
+        ai_model = None
+
+
+def predict_intent(text: str):
+    load_model()
+
+    if ai_model is None:
+        raise Exception("AI model not loaded (missing model weights)")
+
+    inputs = tokenizer(
         text,
         return_tensors="pt",
         truncation=True,
-        padding=True,
-        max_length=128
+        padding=True
     )
-    inputs = {k: v.to(device) for k, v in inputs.items()}
 
     with torch.no_grad():
         outputs = ai_model(**inputs)
-        probs = F.softmax(outputs.logits, dim=-1)
 
-        confidence, pred_idx = torch.max(probs, dim=-1)
+    logits = outputs.logits
+    predicted_index = torch.argmax(logits, dim=1).item()
 
-    intent = AI_LABELS[pred_idx.item()]
-    confidence = confidence.item()
-
-    return intent, confidence
+    return labels[predicted_index], torch.softmax(logits, dim=1)[0][predicted_index].item()

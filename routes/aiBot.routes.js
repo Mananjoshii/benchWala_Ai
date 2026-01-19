@@ -26,9 +26,18 @@ router.post("/ask-ai", async (req, res) => {
     });
 
     /* 3️⃣ Ask AI for intent */
-    const aiRes = await axios.post("http://127.0.0.1:8000/predict", {
-      text: cleanText,
-    });
+    try {
+      const aiRes = await axios.post(
+        "http://nlp-service:8000/predict",
+        { text: cleanText },
+        { headers: { "Content-Type": "application/json" } },
+      );
+      console.log("AI RESPONSE:", aiRes.data);
+    } catch (err) {
+      console.error("NLP ERROR:", err.response?.data || err.message);
+    }
+
+    console.log(aiRes.data);
 
     const { intent, confidence } = aiRes.data;
 
